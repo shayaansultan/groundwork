@@ -86,8 +86,8 @@ const server = Bun.serve({
   },
 })
 
-afterAll(() => {
-  server.stop(true)
+afterAll(async () => {
+  await server.stop(true)
 })
 
 // Uses a known provider id so auth resolution accepts the runtime API key; it
