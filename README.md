@@ -84,10 +84,19 @@ side:
 - `@repo/jobs-pgboss` — durable background jobs and cluster-safe cron on
   pg-boss, tested against in-process PGlite. For simple single-instance
   scheduling or CPU offload, Bun's built-in `Bun.cron` and `Worker` suffice.
+- `@repo/mcp-official` — an MCP server on the official TypeScript SDK,
+  exposing feature logic to AI agents as Zod-validated tools over Streamable
+  HTTP, with localhost-only Host/Origin defaults.
 
 Each module is typechecked and tested by `bun run check` but wired into
 nothing: follow its `MODULE.md` to adopt it, or delete its directory and run
 `bun install` to drop it completely.
+
+The same application can serve heads and headless consumers side by side:
+the web app talks tRPC, while agents talk MCP (and future non-tRPC clients
+talk whatever transport they need) — each as a thin layer over the same
+feature logic. Keeping business rules out of routers and handlers is what
+makes adding a transport a wiring task instead of a rewrite.
 
 ## Git hooks
 

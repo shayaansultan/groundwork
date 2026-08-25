@@ -104,8 +104,8 @@ apps/web  -- typed tRPC client -->  apps/api
   ships standalone. A project built from the template owns its copy and may
   combine or couple modules however it likes.
 - Module names are capability-first and implementation-specific
-  (`logging-tslog`, `db-drizzle`, `agent-pi`) so alternative implementations
-  can sit side by side.
+  (`logging-tslog`, `db-drizzle`, `agent-pi`, `mcp-official`) so alternative
+  implementations can sit side by side.
 - `modules/` is not `packages/`: a future `packages/` directory holds code
   extracted out of applications once it has real consumers, and deleting one
   breaks the build. Deleting a module never does.
@@ -147,6 +147,10 @@ apps/web  -- typed tRPC client -->  apps/api
   the result.
 - Do not bury business rules in routers, React components, database models, or
   queue handlers.
+- Treat every transport (tRPC procedures, MCP tools, future REST endpoints) as
+  a thin layer over the same feature logic. Additional transports are wired in
+  beside existing ones, never by duplicating business rules; when a second
+  transport needs shared schemas, that is the `packages/contracts` trigger.
 - Use typed feature errors where callers need to distinguish expected failures.
 - Keep environment access in the application's `env.ts`; do not scatter
   `process.env` or `Bun.env` reads.
