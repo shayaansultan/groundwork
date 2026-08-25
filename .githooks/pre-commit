@@ -1,0 +1,4 @@
+#!/bin/sh
+# Fast checks only; the full suite runs on pre-push and in CI.
+bun run format:check || { echo 'Formatting issues found. Run: bun run format'; exit 1; }
+bun run lint

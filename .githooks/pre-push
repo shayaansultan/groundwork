@@ -1,0 +1,3 @@
+#!/bin/sh
+# Full verification before anything leaves the machine.
+bun run check

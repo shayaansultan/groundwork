@@ -25,7 +25,9 @@ has weighed in on — never as grounds to resist an explicit decision.
 - Use `bun install`, `bun run`, and `bunx`. Do not introduce npm, pnpm, Yarn, or
   a second lockfile.
 - Root `package.json` scripts are the stable command interface. Prefer them over
-  invoking underlying tools directly.
+  invoking underlying tools directly: `bun run setup` (bootstrap a clone),
+  `dev`, `check` (format, lint, typecheck, test, build — must pass before
+  handoff), `format`, `clean`, and `reset`.
 - Vite owns the web build. TypeScript owns type-checking; successfully running a
   `.ts` file with Bun is not a type-check.
 - Oxlint owns linting and Oxfmt owns formatting. Do not add ESLint, Prettier, or
@@ -36,7 +38,21 @@ has weighed in on — never as grounds to resist an explicit decision.
   upgrading, check peer ranges and run the full verification suite; never hide
   an unsupported-version warning.
 - Before adding a dependency, check whether the repository or platform already
-  provides the capability. Prefer maintained libraries over local frameworks.
+  provides the capability — Bun's standard library grows release to release,
+  so consult its current documentation rather than assuming a gap. Prefer
+  maintained libraries over local frameworks.
+- Bun ships a lot of built-in functionality: web-standard APIs, a test runner
+  (`bun:test`), a shell (`Bun.$`), file I/O (`Bun.file`, `Bun.write`), glob
+  matching (`Bun.Glob`), password hashing (`Bun.password`), SQLite, Postgres,
+  and Redis clients (`bun:sqlite`, `Bun.sql`, `Bun.redis`), compression,
+  `Bun.randomUUIDv7`, and more. In code Bun executes, reach for those
+  built-ins before adding an external library or falling back to a `node:*`
+  compatibility import.
+- Assume model knowledge of versions, APIs, and ecosystem state is stale.
+  Before adding or upgrading a dependency, relying on an external API, or
+  calling anything "latest", verify against current sources: the registry
+  (`bun outdated`), official documentation, and release notes. Never present
+  remembered information as current.
 
 ## Current architecture
 
@@ -46,6 +62,8 @@ apps/web  -- typed tRPC client -->  apps/api
 
 - `apps/web` is a client-rendered React application.
 - `apps/api` is a Bun HTTP server exposing tRPC.
+- `modules/*` are dormant capability packages (see the Modules section); the
+  applications do not import them.
 - There is intentionally no `packages/`, `core/`, `domain/`, `contracts/`,
   `config/`, or `tooling/` directory.
 - The API router type is the current frontend/backend contract. The web app may
@@ -68,6 +86,24 @@ apps/web  -- typed tRPC client -->  apps/api
   dependency injection containers speculatively. Add an abstraction at a real
   external boundary, for a second implementation, or when focused testing
   requires substitution.
+
+## Modules
+
+- `modules/*` are dormant, self-contained capability packages that ship with
+  the template: functional and tested, but wired into nothing. A project
+  adopts one by depending on it and following its `MODULE.md`; a project that
+  does not want one deletes its directory and runs `bun install`.
+- Never import a module from `apps/*` in this template repository. The demo
+  application stays module-free so deleting any module is always safe.
+- Each module owns its dependencies, its tests, and a `MODULE.md` describing
+  what it provides, how to wire it up, and how to remove it.
+- Modules must stay covered by `bun run check` even though nothing imports
+  them; dormant code that is not verified is dead code.
+- Integration between modules must be optional and documented, never a hard
+  dependency between dormant packages.
+- `modules/` is not `packages/`: a future `packages/` directory holds code
+  extracted out of applications once it has real consumers, and deleting one
+  breaks the build. Deleting a module never does.
 
 ## File organization
 
@@ -173,4 +209,5 @@ apps/web  -- typed tRPC client -->  apps/api
   change.
 - Comments should explain non-obvious reasons and constraints, not narrate code.
 - Do not initialize Git, commit, push, publish, deploy, or mutate external
-  services unless the user explicitly requests it.
+  services unless the user explicitly requests it. Commits mark milestones the
+  owner defines; never commit routine changes unprompted.

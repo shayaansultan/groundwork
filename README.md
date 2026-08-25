@@ -19,11 +19,12 @@ dependency boundary appears.
 ## Start
 
 ```sh
-bun install
-cp apps/api/.env.example apps/api/.env
-cp apps/web/.env.example apps/web/.env
+bun run setup
 bun run dev
 ```
+
+`bun run setup` installs all workspaces, creates each application's `.env` from
+its `.env.example` when missing, and registers the repository's git hooks.
 
 The web app runs on <http://localhost:5173> and proxies `/trpc` to the API at
 <http://localhost:3000> during development.
@@ -49,7 +50,11 @@ web application's environment.
 bun run dev
 bun run check
 bun run format
+bun run clean
 ```
+
+`clean` removes build outputs (`apps/*/dist` and `coverage`). `bun run reset`
+goes further: clean, delete `node_modules`, and rerun the full setup.
 
 ## Production
 
@@ -64,6 +69,20 @@ Serve both same-origin by proxying `/trpc` to the API, mirroring the dev setup.
 To host the API on a different origin instead, set `VITE_API_URL` to the API's
 absolute `/trpc` URL at web build time and set `CORS_ORIGIN` on the API to the
 web app's origin.
+
+## Modules
+
+`modules/` holds dormant, self-contained capabilities — currently
+`@repo/logging` (tslog with masking and pretty/JSON output). Each module is
+typechecked and tested by `bun run check` but wired into nothing: follow its
+`MODULE.md` to adopt it, or delete its directory and run `bun install` to drop
+it completely.
+
+## Git hooks
+
+Hooks live in `.githooks/` and are registered by `bun run setup` through
+`core.hooksPath`. Pre-commit runs the fast checks (format and lint); pre-push
+runs the full `bun run check`. Bypass with `--no-verify` when necessary.
 
 ## Conventions
 

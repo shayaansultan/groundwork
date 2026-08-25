@@ -2,17 +2,21 @@
   "name": "groundwork",
   "private": true,
   "workspaces": [
-    "apps/*"
+    "apps/*",
+    "modules/*"
   ],
   "type": "module",
   "scripts": {
+    "setup": "bun install && bun scripts/setup.ts",
     "dev": "bun run --parallel --filter './apps/*' dev",
     "build": "bun run --filter './apps/*' build",
-    "typecheck": "bun run --filter './apps/*' typecheck",
+    "clean": "rm -rf apps/api/dist apps/web/dist coverage",
+    "reset": "bun run clean && rm -rf node_modules && bun run setup",
+    "typecheck": "bun run --filter './apps/*' --filter './modules/*' typecheck",
     "lint": "oxlint",
-    "format": "oxfmt --ignore-path .gitignore --ignore-path .oxfmtignore",
-    "format:check": "oxfmt --check --ignore-path .gitignore --ignore-path .oxfmtignore",
-    "test": "bun run --filter './apps/*' test",
+    "format": "oxfmt",
+    "format:check": "oxfmt --check",
+    "test": "bun run --filter './apps/*' --filter './modules/*' test",
     "check": "bun run format:check && bun run lint && bun run typecheck && bun run test && bun run build"
   },
   "devDependencies": {
