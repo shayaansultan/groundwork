@@ -81,9 +81,11 @@ With db-drizzle also adopted, enqueue after the transaction commits and rely
 on idempotent handlers. pg-boss ships a `fromDrizzle` adapter for enqueuing
 inside a Drizzle transaction, but it does not work with the bun-sql driver
 that db-drizzle uses: Bun.SQL serializes array parameters as Postgres arrays
-rather than JSON, which breaks pg-boss's job insert. Transactional enqueue
-requires a Drizzle connection on the node-postgres or postgres-js driver.
-Neither module requires the other.
+rather than JSON, which breaks pg-boss's job insert (upstream:
+[oven-sh/bun#28819](https://github.com/oven-sh/bun/issues/28819), tracked in
+[timgit/pg-boss#880](https://github.com/timgit/pg-boss/issues/880)).
+Transactional enqueue requires a Drizzle connection on the node-postgres or
+postgres-js driver. Neither module requires the other.
 
 ## Removing it
 
