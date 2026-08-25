@@ -1,0 +1,26 @@
+{
+  "name": "groundwork",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "type": "module",
+  "scripts": {
+    "dev": "bun run --parallel --filter './apps/*' dev",
+    "build": "bun run --filter './apps/*' build",
+    "typecheck": "bun run --filter './apps/*' typecheck",
+    "lint": "oxlint",
+    "format": "oxfmt --ignore-path .gitignore --ignore-path .oxfmtignore",
+    "format:check": "oxfmt --check --ignore-path .gitignore --ignore-path .oxfmtignore",
+    "test": "bun run --filter './apps/*' test",
+    "check": "bun run format:check && bun run lint && bun run typecheck && bun run test && bun run build"
+  },
+  "devDependencies": {
+    "@types/node": "^26.3.0",
+    "oxfmt": "^0.65.0",
+    "oxlint": "^1.80.0",
+    "oxlint-tsgolint": "^7.0.2001",
+    "typescript": "^7.0.2"
+  },
+  "packageManager": "bun@1.4.0"
+}

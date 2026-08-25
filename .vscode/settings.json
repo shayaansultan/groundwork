@@ -1,0 +1,6 @@
+{
+  "files.associations": {
+    "bun.lock": "jsonc"
+  },
+  "json.validate.trailingCommas": "ignore"
+}
