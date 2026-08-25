@@ -4,7 +4,8 @@ A deliberately small full-stack TypeScript workspace to build on:
 
 - Bun workspaces and backend runtime
 - Vite + React
-- TanStack Router, Query, and Form
+- TanStack Router and Query (TanStack Form is the prescribed default when
+  forms arrive)
 - tRPC for end-to-end API types
 - T3 Env Core and Zod for type-safe environment variables
 - Zod for runtime validation
@@ -28,6 +29,21 @@ its `.env.example` when missing, and registers the repository's git hooks.
 
 The web app runs on <http://localhost:5173> and proxies `/trpc` to the API at
 <http://localhost:3000> during development.
+
+## For AI agents
+
+`AGENTS.md` is the root instruction file (`CLAUDE.md` imports it), and each
+application extends it in `apps/*/AGENTS.md`. Read it before changing
+anything: it defines the toolchain, the boundaries, and the change
+discipline. The essentials:
+
+- Bun only — `bun run setup` bootstraps a clone, `bun run dev` starts both
+  apps, and `bun run check` must pass before handoff.
+- `modules/*` are dormant, tested capabilities. Adopt one by following its
+  `MODULE.md`; drop one with `rm -rf modules/<name> && bun install`.
+- Organize by feature, validate untrusted input with Zod, and verify any
+  claim about versions, APIs, or ecosystem state against current sources
+  before acting on it.
 
 ## Environment variables
 
