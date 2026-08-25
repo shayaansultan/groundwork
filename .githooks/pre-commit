@@ -1,4 +1,13 @@
 #!/bin/sh
-# Fast checks only; the full suite runs on pre-push and in CI.
-bun run format:check || { echo 'Formatting issues found. Run: bun run format'; exit 1; }
+# Formats the staged files in place and restages exactly those files, then
+# lints (check-only). The pre-push hook still runs the repo-wide check.
+#
+# Caveat: for a partially staged file, formatting restages the whole file.
+staged=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(ts|tsx|js|jsx|mjs|cjs|json|jsonc)$')
+
+if [ -n "$staged" ]; then
+  printf '%s\n' "$staged" | tr '\n' '\0' | xargs -0 bunx oxfmt || exit 1
+  printf '%s\n' "$staged" | tr '\n' '\0' | xargs -0 git add
+fi
+
 bun run lint

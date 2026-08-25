@@ -81,6 +81,9 @@ side:
   against in-process PGlite.
 - `@repo/agent-pi` — an embeddable Pi agent with custom tools and streaming,
   server-safe by default and tested against a local scripted model.
+- `@repo/jobs-pgboss` — durable background jobs and cluster-safe cron on
+  pg-boss, tested against in-process PGlite. For simple single-instance
+  scheduling or CPU offload, Bun's built-in `Bun.cron` and `Worker` suffice.
 
 Each module is typechecked and tested by `bun run check` but wired into
 nothing: follow its `MODULE.md` to adopt it, or delete its directory and run
@@ -89,8 +92,9 @@ nothing: follow its `MODULE.md` to adopt it, or delete its directory and run
 ## Git hooks
 
 Hooks live in `.githooks/` and are registered by `bun run setup` through
-`core.hooksPath`. Pre-commit runs the fast checks (format and lint); pre-push
-runs the full `bun run check`. Bypass with `--no-verify` when necessary.
+`core.hooksPath`. Pre-commit formats the staged files in place, restages them,
+and lints; pre-push runs the full `bun run check`. Bypass with `--no-verify`
+when necessary.
 
 ## Conventions
 

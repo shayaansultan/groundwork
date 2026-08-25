@@ -45,7 +45,7 @@ has weighed in on — never as grounds to resist an explicit decision.
   (`bun:test`), a shell (`Bun.$`), file I/O (`Bun.file`, `Bun.write`), glob
   matching (`Bun.Glob`), password hashing (`Bun.password`), SQLite, Postgres,
   and Redis clients (`bun:sqlite`, `Bun.sql`, `Bun.redis`), compression,
-  `Bun.randomUUIDv7`, and more. In code Bun executes, reach for those
+  `Bun.randomUUIDv7`, cron scheduling (`Bun.cron`), worker threads, and more. In code Bun executes, reach for those
   built-ins before adding an external library or falling back to a `node:*`
   compatibility import.
 - Assume model knowledge of versions, APIs, and ecosystem state is stale.
