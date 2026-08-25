@@ -1,5 +1,5 @@
 {
-  "name": "@repo/logging",
+  "name": "@repo/logging-tslog",
   "private": true,
   "type": "module",
   "exports": {

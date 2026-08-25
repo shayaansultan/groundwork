@@ -21,7 +21,7 @@ and tested by `bun run check` so it is always ready to wire up.
 1. Depend on it from the app:
 
    ```sh
-   cd apps/api && bun add @repo/logging@workspace:*
+   cd apps/api && bun add @repo/logging-tslog@workspace:*
    ```
 
 2. Create the app's logger beside its composition root, driven by the app's
@@ -29,7 +29,7 @@ and tested by `bun run check` so it is always ready to wire up.
    `src/env.ts` rather than reading the runtime environment directly):
 
    ```ts
-   import { createLogger } from '@repo/logging'
+   import { createLogger } from '@repo/logging-tslog'
 
    import { env } from './env'
 
@@ -48,7 +48,7 @@ console logging there stops being enough.
 ## Removing it
 
 ```sh
-rm -rf modules/logging && bun install
+rm -rf modules/logging-tslog && bun install
 ```
 
 Nothing else references this module until you wire it, so removal is complete.

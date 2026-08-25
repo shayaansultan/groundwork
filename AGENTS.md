@@ -96,11 +96,16 @@ apps/web  -- typed tRPC client -->  apps/api
 - Never import a module from `apps/*` in this template repository. The demo
   application stays module-free so deleting any module is always safe.
 - Each module owns its dependencies, its tests, and a `MODULE.md` describing
-  what it provides, how to wire it up, and how to remove it.
+  what it provides, how to wire it up, and how to remove it. Read it before
+  wiring or changing a module.
 - Modules must stay covered by `bun run check` even though nothing imports
   them; dormant code that is not verified is dead code.
-- Integration between modules must be optional and documented, never a hard
-  dependency between dormant packages.
+- In this template repository, modules must not depend on other modules: each
+  ships standalone. A project built from the template owns its copy and may
+  combine or couple modules however it likes.
+- Module names are capability-first and implementation-specific
+  (`logging-tslog`, `db-drizzle`, `agent-pi`) so alternative implementations
+  can sit side by side.
 - `modules/` is not `packages/`: a future `packages/` directory holds code
   extracted out of applications once it has real consumers, and deleting one
   breaks the build. Deleting a module never does.

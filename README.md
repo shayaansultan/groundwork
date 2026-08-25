@@ -72,11 +72,17 @@ web app's origin.
 
 ## Modules
 
-`modules/` holds dormant, self-contained capabilities — currently
-`@repo/logging` (tslog with masking and pretty/JSON output). Each module is
-typechecked and tested by `bun run check` but wired into nothing: follow its
-`MODULE.md` to adopt it, or delete its directory and run `bun install` to drop
-it completely.
+`modules/` holds dormant, self-contained capabilities, named
+capability-first and implementation-specific so alternatives can sit side by
+side:
+
+- `@repo/logging-tslog` — tslog with secret masking and pretty/JSON output.
+- `@repo/db-drizzle` — Drizzle ORM on Bun's native Postgres client, tested
+  against in-process PGlite.
+
+Each module is typechecked and tested by `bun run check` but wired into
+nothing: follow its `MODULE.md` to adopt it, or delete its directory and run
+`bun install` to drop it completely.
 
 ## Git hooks
 
