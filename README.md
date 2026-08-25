@@ -79,6 +79,8 @@ side:
 - `@repo/logging-tslog` — tslog with secret masking and pretty/JSON output.
 - `@repo/db-drizzle` — Drizzle ORM on Bun's native Postgres client, tested
   against in-process PGlite.
+- `@repo/agent-pi` — an embeddable Pi agent with custom tools and streaming,
+  server-safe by default and tested against a local scripted model.
 
 Each module is typechecked and tested by `bun run check` but wired into
 nothing: follow its `MODULE.md` to adopt it, or delete its directory and run
